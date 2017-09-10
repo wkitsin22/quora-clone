@@ -1,0 +1,43 @@
+<% a=Question.find(@questionid).question %>  
+<% b=Question.find(@questionid).user_id %>
+
+<% c=User.find_by(id: Question.find(@questionid).user_id).name  %>
+<% d=Question.find(@questionid).id %>
+
+	<div class="card"  style='width: 40rem;'>
+	  <div class="card-header">
+	  	<h6 class='question_by'><a href='/user/<%= b %>'><%= c %> : </a></h6>
+	  	<h4 class='card-title'><%= a %></h4>
+	  </div>
+	  <div class="card-block">
+	    <div class="card-text">
+	    	<div class ='list'>
+	    	<h6 class='card-subtitle mb-2 text-muted' id="<%= d %>">
+	    	<br>
+	    	    <% Answer.all.each do |j| %> 
+	    	        <% if d == j.question_id %>
+	    	        <div class = 'answer_by'>
+	    	        	<h8><a href='/user/<%= User.find_by(id: j.user_id).id %>'>
+	    	            <%= User.find_by(id: j.user_id).name %>
+	    	            : </a></h8>
+	    	        </div>
+	    	        <div class = 'given_answer'>
+	    	            <%= j.answer %>
+	    	        </div>
+	    	        <br>
+	    	        <% end %>
+	    	    <% end %>
+	    	</h6>
+	    	</div>
+	    </div>
+
+	        <form action='/answer' method='post' class ='cards'>
+	    	    <div class='answers'>
+	    	    <input type='text' name='answer' id ="<%= d %>" placeholder = 'answer' style='width: 30rem;'>
+	    	    </div>
+	    	    <input type="hidden" name="question_id" value="<%= d %>">
+	    	    <button class='answer' type='submit' id ="<%= d %>">Answer</button>
+	        </form>
+
+	  </div>
+	</div>

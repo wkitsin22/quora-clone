@@ -3,5 +3,6 @@ class User < ActiveRecord::Base
 	validates :email, format: {with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i}
 	validates :email, uniqueness: true 
 	validates :name, presence: true 
-
+	has_many :questions
+	has_many :answers
 end 

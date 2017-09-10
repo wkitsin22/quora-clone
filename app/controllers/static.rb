@@ -1,12 +1,12 @@
 # enable :sessions
 
 get '/' do
-	# byebug
 	# session[:user_id] = nil 
-	if session[:user_id] != nil 
-		erb :"static/home"
+	# session[:user_id] = nil 
+	if current_user == nil 
+		erb :"static/index"
 	else 
-  		erb :"static/index"
+  		erb :"static/home"
   	end 
 end
 
@@ -25,17 +25,21 @@ end
 
 get '/home' do 
 	# byebug
-	erb :"static/home"
+	if current_user == nil 
+		redirect "/"
+	else 
+		erb :"static/home"
+	end 
 end 
 
 post "/login" do 
-	puts params
+	# puts params
 	# user = User.find_by(email: params[:email])
-	puts "++++++++++++++++++++++++++"
+	# puts "++++++++++++++++++++++++++"
 	# user.authenticate(params[:password])
 	login = User.find_by(email: params[:email]).try(:authenticate, params[:password]) 
 	# byebug
-	if login == false 
+	if login == nil 
 		@error1 = 'asdasda'
 		erb :"static/index"
 	else  
@@ -50,11 +54,60 @@ post "/logout" do
 	redirect "/"
 end 
 
-get "/user" do 
+get "/user/:id" do 
 	# byebug/
-	# puts params 
-	@user = User.find_by(id: session[:user_id])
-	puts "+++++++++++++++++"
-	@user = @user.name 
-	erb :"users/profile"
+	puts "+++++++++++++++++++++"
+	puts params 
+	if current_user == nil 
+		redirect "/"
+	else 
+		@user = User.find_by(id: params[:id]).name
+		erb :"users/profile"
+	end 
+end 
+
+post "/question" do 
+	puts "+++++++++++++++++++"
+	puts params 
+	# byebug
+	question = Question.new(question: params[:question], user_id: current_user.id)
+	# byebug
+	if question.save 
+		# question.to_json
+		{message: question.question, person: User.find_by(id: question.user_id).name, id: question.id}.to_json
+	else 
+		erb :"static/home"
+	end 
+end 
+
+post "/answer" do 
+	puts "+++++++++++"
+	puts params 
+	# byebug
+	answer = Answer.new(answer: params[:answer], user_id: current_user.id, question_id: params[:question_id])
+	# puts answer
+	# byebug
+	if answer.save 
+		# answer.to_json
+		{message: answer.answer, person: User.find_by(id: answer.user_id).name}.to_json
+	else 
+		erb :"static/home"
+	end 
+end 
+
+get "/myquestions" do 
+	if current_user == nil 
+		redirect "/"
+	else 
+		erb :"static/questions"
+	end 
+end 
+
+get "/one_question/:id" do 
+	@questionid = params[:id]
+	erb :"static/one_question"
+end 
+
+get "/myanswers" do
+	erb :"static/answers"
 end 
