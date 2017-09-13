@@ -1,13 +1,25 @@
-<h1 class='my_question_header'> Questions asked by <%= User.find_by(id: session[:user_id]).name %></h1>
+<h1 class='my_question_header'> Questions asked by <%= @username %></h1>
 
-<% a=User.find(session[:user_id]) %>
-<% b=a.questions %>
-
-<% b.each do |i| %>
+<% @b.each do |i| %>
     <div class="card"  style='width: 40rem;'>
       <div class="card-header">
-        <h6 class='question_by'><a href='/user/<%= i.id %>'><%= User.find_by(id: session[:user_id]).name %> : </a></h6>
+        <h6 class='question_by'><a href='/user/<%= i.id %>'><%= @username %> : </a></h6>
         <h4 class='card-title'><a href='/one_question/<%= i.id %>'><%= i.question %></a></h4>
+
+        <form action='/questionvote' method='post' class='up'>
+            <input type="hidden" name="vote" value=1>
+            <input type="hidden" name="question_id" value="<%= i.id %>">
+            <button type="submit" class='upvote'>Up</button>
+        </form>
+
+        <h8 id='number_of_votes_<%= i.id %>' class='voteshow'><%= Questionvote.total_vote(i) %></h8>
+
+        <form action='/questionvote' method='post' class='down'>
+            <input type="hidden" name="vote" value=0>
+            <input type="hidden" name="question_id" value="<%= i.id %>">
+            <button type="submit" class='downvote'>Down</button>
+        </form>
+        
       </div>
       <div class="card-block">
         <div class="card-text">
@@ -23,6 +35,25 @@
                     </div>
                     <div class = 'given_answer'>
                         <%= j.answer %>
+
+                        <div class='space'>
+                        </div>
+
+                        <form action='/answervote' method='post' class='ansup'>
+                            <input type="hidden" name="vote" value=1>
+                            <input type="hidden" name="question_id" value="<%= i.id %>">
+                            <input type="hidden" name="answer_id" value="<%= j.id %>">
+                            <button type="submit" class='ansupvote'>Up</button>
+                        </form>
+
+                        <h10 id='ans_number_of_votes_<%= j.id %>' class='ansvoteshow'><%= Answervote.total_vote(j) %></h10>
+
+                        <form action='/answervote' method='post' class='ansdown'>
+                            <input type="hidden" name="vote" value=0>
+                            <input type="hidden" name="question_id" value="<%= i.id %>">
+                            <input type="hidden" name="answer_id" value="<%= j.id %>">
+                            <button type="submit" class='ansdownvote'>Down</button>
+                        </form>
                     </div>
                     <br>
                     <% end %>

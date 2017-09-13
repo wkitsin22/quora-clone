@@ -110,12 +110,41 @@
 	    border-radius: 5px ; 
 }
 
+.upvote, .downvote, .ansupvote, .ansdownvote{
+	    background-color: #4CAF50; /* Green */
+	    border: none;
+	    color: white;
+	    padding: 8px 20px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 10px;
+	    border-radius: 5px ; 
+}
+
 .form-group {
 	text-align: center;
 	font-size: 150%;
 }
 
+.cards {
+	text-align: center;
+}
+
 #ask_button {
 	font-size: 150%;
 	padding: 10px 30px;
+}
+
+.voteshow, .ansvoteshow {
+
+	padding: 10px 10px 10px 10px;
+}
+
+.voteshow, .up, .down, .ansvoteshow, .ansup, .ansdown {
+	display: inline;
+}
+
+.ansvoteshow {
+	font-size: 80% ; 
 }

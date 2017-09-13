@@ -10,6 +10,7 @@
 	  	    <label for="exampleInputEmail1">Enter Question Here</label>
 	  	    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter question" name="question">
 	  	  </div>
+	  	  <input type="hidden" name="user_id" value="<%= current_user.id %>">
 	  	  <button type="submit" class="btn btn-primary" id='ask_button'>Ask</button>
 	  	</form>
 
@@ -20,14 +21,32 @@
 	</div>
 
 	<div class="card_blocks">
-	<% Question.all.order('id ASC').each do |i| %>
+	<% @question.each do |i| %>
 		<div class="card"  style='width: 40rem;'>
 		  <div class="card-header">
-		  	<h6 class='question_by'><a href='/user/<%= i.id %>'><%= User.find_by(id: i.user_id).name %> : </a></h6>
+		  	<h6 class='question_by'><a href='/user/<%= i.user_id %>'><%= User.find_by(id: i.user_id).name %> : </a></h6>
 		  	<div class='question_title'>
-		  		<h4 class='card-title'><a href='/one_question/<%= i.id %>'><%= i.question %></a></h4>
-		  	</div>
+		  		<h4 class='card-title'><a href='/one_question/<%= i.id %>'>
+		  			<%= i.question %></a>
+		  		</h4>
+
+				  	<form action='/questionvote' method='post' class='up'>
+				  	 	<input type="hidden" name="vote" value=1>
+				  	 	<input type="hidden" name="question_id" value="<%= i.id %>">
+				  	 	<button type="submit" class='upvote'>Up</button>
+				  	</form>
+
+				  	<h8 id='number_of_votes_<%= i.id %>' class='voteshow'><%= Questionvote.total_vote(i) %></h8>
+
+				  	<form action='/questionvote' method='post' class='down'>
+				  		<input type="hidden" name="vote" value=0>
+				  		<input type="hidden" name="question_id" value="<%= i.id %>">
+				  		<button type="submit" class='downvote'>Down</button>
+				  	</form>
+
+			</div>
 		  </div>
+
 		  <div class="card-block">
 		    <div class="card-text">
 		    	<div class ='list'>
@@ -41,7 +60,28 @@
 			    	            : </a></h8>
 			    	        </div>
 			    	        <div class = 'given_answer'>
-			    	            <%= j.answer %>
+				    	        <div class ='print'>
+				    	            <%= j.answer %>
+				    	        </div>
+			    	            <div class='space'>
+			    	            </div>
+
+			    	            <form action='/answervote' method='post' class='ansup'>
+			    	             	<input type="hidden" name="vote" value=1>
+			    	             	<input type="hidden" name="question_id" value="<%= i.id %>">
+			    	             	<input type="hidden" name="answer_id" value="<%= j.id %>">
+			    	             	<button type="submit" class='ansupvote'>Up</button>
+			    	            </form>
+
+			    	            <h10 id='ans_number_of_votes_<%= j.id %>' class='ansvoteshow'><%= Answervote.total_vote(j) %></h10>
+
+			    	            <form action='/answervote' method='post' class='ansdown'>
+			    	            	<input type="hidden" name="vote" value=0>
+			    	            	<input type="hidden" name="question_id" value="<%= i.id %>">
+			    	            	<input type="hidden" name="answer_id" value="<%= j.id %>">
+			    	            	<button type="submit" class='ansdownvote'>Down</button>
+			    	            </form>
+
 			    	        </div>
 			    	        <br>
 			    	        <% end %>
@@ -54,14 +94,22 @@
 		    	    <div class='answers'>
 		    	    	<input type='text' name='answer' id ="<%= i.id %>" placeholder = 'answer' style='width: 30rem;'>
 		    	    </div>
+		    	    <div class = 'space'>
+		    	    </div>
 		    	    <input type="hidden" name="question_id" value="<%= i.id %>">
 		    	    <button class='answer' type='submit' id ="<%= i.id %>">Answer</button>
 		        </form>
+
+		         <% if @error2 %>
+		         	<p> the vote isn't valid </p>
+		         <% end %>
 
 		  </div>
 		</div>
 		<br>
 	<% end %> 
+
 	</div>
+	<%= will_paginate @question %>
 </div>
 

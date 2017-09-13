@@ -21,6 +21,8 @@ require "sinatra/reloader" if development?
 require 'erb'
 require 'uri'
 require 'byebug'
+require 'will_paginate'
+require 'will_paginate/active_record'
 ######################################################################
 
 
