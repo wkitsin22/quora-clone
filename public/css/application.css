@@ -1,6 +1,8 @@
-.main{
-	background-image: url("/img/quora.png");
-}
+/*body{
+	background-image: url("/img/forest.jpg");
+	background-size: auto;
+	background-repeat: no-repeat;
+}*/
 
 .logreg {
 	position :absolute;
@@ -34,3 +36,115 @@
 	text-align: center;
 }
 
+.card{
+	margin: auto;
+	border: 1px solid;
+	border-radius: 25px; 
+}
+
+.question_header {
+	background-color: #bdbdbd;
+}
+
+.card-body {
+	padding: 0px 0px 0px 0px ;
+	border: 2px solid;
+	/*border-color: green ;*/
+}
+
+.space {
+	height: 10px;
+}
+
+.answer_by {
+	color: blue;
+}
+
+.main {
+	height: 100%;
+	background-image: url("/img/quora.png");
+}
+
+/*.below_nav {
+	height: 130px;
+	background-color: #bdbdbd
+}*/
+
+.question_by {
+	color: blue ; 
+}
+
+.card_block {
+	background-color: red ; 
+}
+
+.my_question_header{
+	text-align: center;
+}
+
+.question_title{
+	color: black ;
+	text-decoration: none;
+	background-color: none;
+}
+
+.given_answer {
+	color: black;
+	font-size: 150% ;
+}
+
+/*.home {
+	background-color: #D6FF97;
+}
+*/
+
+.answer{
+	    background-color: #4CAF50; /* Green */
+	    border: none;
+	    color: white;
+	    padding: 10px 30px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    border-radius: 5px ; 
+}
+
+.upvote, .downvote, .ansupvote, .ansdownvote{
+	    background-color: #4CAF50; /* Green */
+	    border: none;
+	    color: white;
+	    padding: 8px 20px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 10px;
+	    border-radius: 5px ; 
+}
+
+.form-group {
+	text-align: center;
+	font-size: 150%;
+}
+
+.cards {
+	text-align: center;
+}
+
+#ask_button {
+	font-size: 150%;
+	padding: 10px 30px;
+}
+
+.voteshow, .ansvoteshow {
+
+	padding: 10px 10px 10px 10px;
+}
+
+.voteshow, .up, .down, .ansvoteshow, .ansup, .ansdown {
+	display: inline;
+}
+
+.ansvoteshow {
+	font-size: 80% ; 
+}
